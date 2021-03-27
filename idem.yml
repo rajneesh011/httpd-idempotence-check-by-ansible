@@ -1,0 +1,20 @@
+- hosts: namenode
+  tasks:
+     - name: "installing HTTPD in the system..."
+       package:
+             name: "httpd"
+             state: present
+     - copy:
+             src: "raj.html"
+             dest: "/var/www/html"
+     - template:
+             dest: "/etc/httpd/conf.d/raj.conf.j2"
+             src: "raj.conf.j2"
+       notify: web service
+  handlers:
+     - name: web service
+       service:
+             name: "httpd"
+             state: restarted
+
+
